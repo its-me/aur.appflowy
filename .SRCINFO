@@ -26,6 +26,7 @@ pkgbase = appflowy
 	conflicts = appflowy-bin
 	options = !lto
 	options = !debug
+	options = !buildflags
 	source = appflowy-0.12.1.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/0.12.1.tar.gz
 	source = flutter-3.27.4-linux.tar.xz::https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.27.4-stable.tar.xz
 	source = appflowy.desktop

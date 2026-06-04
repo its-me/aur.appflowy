@@ -33,7 +33,7 @@ optdepends=(
     'kdialog: file picker on KDE Plasma'
     'zenity: file picker on GNOME/GTK'
 )
-options=('!lto' '!debug')
+options=('!lto' '!debug' '!buildflags')
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/${pkgver}.tar.gz"
     "flutter-${_flutter_ver}-linux.tar.xz::https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${_flutter_ver}-stable.tar.xz"
