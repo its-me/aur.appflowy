@@ -1,0 +1,35 @@
+pkgbase = appflowy
+	pkgdesc = Open-source alternative to Notion – you own your data and customizations
+	pkgver = 0.12.1
+	pkgrel = 1
+	url = https://appflowy.com
+	arch = x86_64
+	license = AGPL-3.0-or-later
+	makedepends = clang
+	makedepends = cmake
+	makedepends = ninja
+	makedepends = pkg-config
+	makedepends = sqlite
+	makedepends = openssl
+	makedepends = unzip
+	makedepends = protobuf
+	makedepends = rustup
+	makedepends = cargo-make
+	makedepends = flutter
+	depends = glib2>=2.80
+	depends = gst-plugins-base-libs
+	depends = gtk3
+	depends = hicolor-icon-theme
+	depends = libkeybinder3
+	depends = libnotify
+	optdepends = kdialog: file picker on KDE Plasma
+	optdepends = zenity: file picker on GNOME/GTK
+	conflicts = appflowy-bin
+	options = !lto
+	options = !debug
+	source = appflowy-0.12.1.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/0.12.1.tar.gz
+	source = appflowy.desktop
+	sha256sums = 6c754ea233e51a1ef085975d3463eee449488fe07e22abc42900eee68073a640
+	sha256sums = 55c02d13249b333088ee452e76c8f36254e510651023549dc7e35efca02ca821
+
+pkgname = appflowy
