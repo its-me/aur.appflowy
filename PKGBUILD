@@ -16,6 +16,7 @@ depends=(
     'libkeybinder3'
     'libnotify'
 )
+_flutter_ver=3.27.4
 makedepends=(
     'clang'
     'cmake'
@@ -27,7 +28,6 @@ makedepends=(
     'protobuf'
     'rustup'
     'cargo-make'
-    'flutter'
 )
 optdepends=(
     'kdialog: file picker on KDE Plasma'
@@ -36,14 +36,18 @@ optdepends=(
 options=('!lto' '!debug')
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/${pkgver}.tar.gz"
+    "flutter-${_flutter_ver}-linux.tar.xz::https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${_flutter_ver}-stable.tar.xz"
     "appflowy.desktop"
 )
 sha256sums=(
     '6c754ea233e51a1ef085975d3463eee449488fe07e22abc42900eee68073a640'
+    '64df4273de625433c7ba41967932b782f5f9abf3199db8330782d64508379344'
     '55c02d13249b333088ee452e76c8f36254e510651023549dc7e35efca02ca821'
 )
 
 prepare() {
+    export PATH="${srcdir}/flutter/bin:${PATH}"
+
     cd "AppFlowy-${pkgver}/frontend"
 
     # Install the Rust toolchain declared in rust-toolchain.toml (channel = "1.85")
@@ -59,11 +63,9 @@ prepare() {
 }
 
 build() {
+    export PATH="${srcdir}/flutter/bin:${HOME}/.pub-cache/bin:${PATH}"
+
     cd "AppFlowy-${pkgver}/frontend"
-
-    # protoc-gen-dart is installed per-user by the build system via dart pub global
-    export PATH="${PATH}:${HOME}/.pub-cache/bin"
-
     cargo make --profile production-linux-x86_64 appflowy
 }
 

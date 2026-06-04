@@ -15,7 +15,6 @@ pkgbase = appflowy
 	makedepends = protobuf
 	makedepends = rustup
 	makedepends = cargo-make
-	makedepends = flutter
 	depends = glib2>=2.80
 	depends = gst-plugins-base-libs
 	depends = gtk3
@@ -28,8 +27,10 @@ pkgbase = appflowy
 	options = !lto
 	options = !debug
 	source = appflowy-0.12.1.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/0.12.1.tar.gz
+	source = flutter-3.27.4-linux.tar.xz::https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_3.27.4-stable.tar.xz
 	source = appflowy.desktop
 	sha256sums = 6c754ea233e51a1ef085975d3463eee449488fe07e22abc42900eee68073a640
+	sha256sums = 64df4273de625433c7ba41967932b782f5f9abf3199db8330782d64508379344
 	sha256sums = 55c02d13249b333088ee452e76c8f36254e510651023549dc7e35efca02ca821
 
 pkgname = appflowy
