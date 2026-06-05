@@ -64,6 +64,8 @@ prepare() {
 
 build() {
     export PATH="${srcdir}/flutter/bin:${HOME}/.pub-cache/bin:${PATH}"
+    export CC=clang
+    export CXX=clang++
 
     cd "AppFlowy-${pkgver}/frontend"
     cargo make --profile production-linux-x86_64 appflowy
