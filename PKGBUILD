@@ -61,6 +61,10 @@ prepare() {
     # Fetch Flutter package dependencies
     cd appflowy_flutter
     flutter pub get
+
+    # Run code generation explicitly so it runs visibly and before cargo-make
+    cd ..
+    ./scripts/code_generation/generate.sh --skip-pub-get
 }
 
 build() {
