@@ -15,6 +15,7 @@ depends=(
     'hicolor-icon-theme'
     'libkeybinder3'
     'libnotify'
+    'rocksdb'
 )
 _flutter_ver=3.27.4
 makedepends=(
@@ -66,6 +67,7 @@ build() {
     export PATH="${srcdir}/flutter/bin:${HOME}/.pub-cache/bin:${PATH}"
     export CC=clang
     export CXX=clang++
+    export ROCKSDB_LIB_DIR=/usr/lib
 
     cd "AppFlowy-${pkgver}/frontend"
     cargo make --profile production-linux-x86_64 appflowy
