@@ -72,6 +72,8 @@ build() {
     export CC=clang
     export CXX=clang++
     export ROCKSDB_LIB_DIR=/usr/lib
+    # hotkey_manager plugin has uninitialized variables that clang promotes to errors
+    export CXXFLAGS="-Wno-error=sometimes-uninitialized"
 
     cd "AppFlowy-${pkgver}/frontend"
     cargo make --profile production-linux-x86_64 appflowy
