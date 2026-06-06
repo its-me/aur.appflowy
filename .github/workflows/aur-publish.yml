@@ -10,34 +10,12 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     container:
       image: ghcr.io/its-me/arch-linux-repository:latest
-      options: --user builder
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Generate .SRCINFO
-        run: makepkg --printsrcinfo > .SRCINFO
-
-      - name: Configure git
-        run: |
-          git config --global user.name "Sergey Kanafyev"
-          git config --global user.email "sergeykanafyev@gmail.com"
-
-      - name: Commit .SRCINFO to repository
-        run: |
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git add .SRCINFO
-          if git diff --staged --quiet; then
-            echo ".SRCINFO is up to date"
-            exit 0
-          fi
-          git commit -m "update .SRCINFO"
-          git push
 
       - name: Set up SSH
         run: |
@@ -52,7 +30,11 @@ jobs:
           EOF
 
       - name: Push to AUR
+        env:
+          COMMIT_MSG: ${{ github.event.inputs.commit_message }}
         run: |
+          git config --global user.name "Sergey Kanafyev"
+          git config --global user.email "sergeykanafyev@gmail.com"
           git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
           cp -rv . ~/aur/
           cd ~/aur
@@ -63,6 +45,5 @@ jobs:
           fi
           _ver=$(grep '^pkgver=' PKGBUILD | cut -d= -f2)
           _rel=$(grep '^pkgrel=' PKGBUILD | cut -d= -f2)
-          _msg="${{ github.event.inputs.commit_message }}"
-          git commit -m "${_msg:-"update to ${_ver}-${_rel}"}"
+          git commit -m "${COMMIT_MSG:-"update to ${_ver}-${_rel}"}"
           git push
