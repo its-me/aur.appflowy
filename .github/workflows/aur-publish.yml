@@ -34,7 +34,7 @@ jobs:
           git config --global user.name "Sergey Kanafyev"
           git config --global user.email "sergeykanafyev@gmail.com"
           git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
-          rsync -av --exclude='.github' . ~/aur/
+          rsync -av --exclude='.github' --exclude='.git' . ~/aur/
           cd ~/aur
           git add .
           if git diff --staged --quiet; then
