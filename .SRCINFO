@@ -25,6 +25,7 @@ pkgbase = appflowy
 	optdepends = kdialog: file picker on KDE Plasma
 	optdepends = zenity: file picker on GNOME/GTK
 	conflicts = appflowy-bin
+	conflicts = appflowy-git
 	options = !lto
 	options = !debug
 	options = !buildflags
