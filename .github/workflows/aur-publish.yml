@@ -1,0 +1,52 @@
+name: Publish to AUR
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_message:
+        description: "Commit message (optional)"
+        required: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/its-me/arch-linux-repository:latest
+      options: --user builder
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Generate .SRCINFO
+        run: makepkg --printsrcinfo > .SRCINFO
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AUR_SSH_KEY }}" > ~/.ssh/aur
+          chmod 600 ~/.ssh/aur
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+          cat >> ~/.ssh/config << 'EOF'
+          Host aur.archlinux.org
+              IdentityFile ~/.ssh/aur
+              User aur
+          EOF
+
+      - name: Push to AUR
+        run: |
+          git config --global user.name "Sergey Kanafyev"
+          git config --global user.email "sergeykanafyev@gmail.com"
+          git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
+          cp -r . ~/aur/
+          cd ~/aur
+          git add .
+          if git diff --staged --quiet; then
+            echo "AUR is already up to date"
+            exit 0
+          fi
+          _ver=$(grep '^pkgver=' PKGBUILD | cut -d= -f2)
+          _rel=$(grep '^pkgrel=' PKGBUILD | cut -d= -f2)
+          _msg="${{ github.event.inputs.commit_message }}"
+          git commit -m "${_msg:-"update to ${_ver}-${_rel}"}"
+          git push
