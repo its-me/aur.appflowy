@@ -53,7 +53,7 @@ prepare() {
 
     # Install the Rust toolchain declared in rust-toolchain.toml (channel = "1.85")
     rustup toolchain install --no-self-update
-    rustup target add x86_64-unknown-linux-gnu
+    rustup target add ${CARCH}-unknown-linux-gnu
 
     # Pre-fetch Rust crate dependencies
     cargo fetch --manifest-path=rust-lib/Cargo.toml
@@ -76,7 +76,7 @@ build() {
     export CXXFLAGS="-Wno-error=sometimes-uninitialized"
 
     cd "AppFlowy-${pkgver}/frontend"
-    cargo make --profile production-linux-x86_64 appflowy
+    cargo make --profile production-linux-${CARCH} appflowy
 }
 
 package() {
