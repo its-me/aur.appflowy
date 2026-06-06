@@ -14,6 +14,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install namcap
+        run: paru -S --noconfirm namcap
+
       - name: Lint PKGBUILD
         run: namcap PKGBUILD
 
