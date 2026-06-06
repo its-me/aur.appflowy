@@ -33,9 +33,9 @@ jobs:
         run: |
           git config --global user.name "Sergey Kanafyev"
           git config --global user.email "sergeykanafyev@gmail.com"
-          git clone ssh://aur@aur.archlinux.org/appflowy.git /tmp/aur
-          rsync -rv --exclude='.github' --exclude='.git' . /tmp/aur/
-          cd /tmp/aur
+          git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
+          rsync -rv --exclude='.github' --exclude='.git' . ~/aur/
+          cd ~/aur
           git add .
           if git diff --staged --quiet; then
             echo "AUR is already up to date"
