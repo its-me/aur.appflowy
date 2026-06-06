@@ -22,19 +22,14 @@ jobs:
 
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.AUR_SSH_KEY }}" > ~/.ssh/aur
-          chmod 600 ~/.ssh/aur
-          cat >> ~/.ssh/config << 'EOF'
-          StrictHostKeyChecking no
-          Host aur.archlinux.org
-              IdentityFile ~/.ssh/aur
-              User aur
-          EOF
+          mkdir -p /root/.ssh
+          echo "${{ secrets.AUR_SSH_KEY }}" > /root/.ssh/aur
+          chmod 600 /root/.ssh/aur
 
       - name: Push to AUR
         env:
           COMMIT_MSG: ${{ github.event.inputs.commit_message }}
+          GIT_SSH_COMMAND: ssh -i /root/.ssh/aur -o StrictHostKeyChecking=no
         run: |
           git config --global user.name "Sergey Kanafyev"
           git config --global user.email "sergeykanafyev@gmail.com"
