@@ -10,6 +10,8 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     container:
       image: ghcr.io/its-me/arch-linux-repository:latest
       options: --user builder
@@ -20,6 +22,22 @@ jobs:
 
       - name: Generate .SRCINFO
         run: makepkg --printsrcinfo > .SRCINFO
+
+      - name: Configure git
+        run: |
+          git config --global user.name "Sergey Kanafyev"
+          git config --global user.email "sergeykanafyev@gmail.com"
+
+      - name: Commit .SRCINFO to repository
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git add .SRCINFO
+          if git diff --staged --quiet; then
+            echo ".SRCINFO is up to date"
+            exit 0
+          fi
+          git commit -m "update .SRCINFO"
+          git push
 
       - name: Set up SSH
         run: |
@@ -35,10 +53,8 @@ jobs:
 
       - name: Push to AUR
         run: |
-          git config --global user.name "Sergey Kanafyev"
-          git config --global user.email "sergeykanafyev@gmail.com"
           git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
-          cp -r . ~/aur/
+          cp -rv . ~/aur/
           cd ~/aur
           git add .
           if git diff --staged --quiet; then
