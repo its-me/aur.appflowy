@@ -26,10 +26,10 @@ jobs:
           echo "${{ secrets.AUR_SSH_KEY }}" > ~/.ssh/aur
           chmod 600 ~/.ssh/aur
           cat >> ~/.ssh/config << 'EOF'
+          StrictHostKeyChecking no
           Host aur.archlinux.org
               IdentityFile ~/.ssh/aur
               User aur
-              StrictHostKeyChecking accept-new
           EOF
 
       - name: Push to AUR
@@ -39,7 +39,7 @@ jobs:
           git config --global user.name "Sergey Kanafyev"
           git config --global user.email "sergeykanafyev@gmail.com"
           git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
-          cp -rv . ~/aur/
+          rsync -av --exclude='.github' . ~/aur/
           cd ~/aur
           git add .
           if git diff --staged --quiet; then
