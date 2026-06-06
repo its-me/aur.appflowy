@@ -17,6 +17,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Install openssh
+        run: paru -S --noconfirm openssh
+
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
