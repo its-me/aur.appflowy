@@ -22,6 +22,7 @@ jobs:
 
       - name: Check .SRCINFO is up to date
         run: |
+          chown builder .
           su builder -c "makepkg --printsrcinfo" > /tmp/.SRCINFO.generated
           if ! diff -u .SRCINFO /tmp/.SRCINFO.generated; then
             echo "::error::.SRCINFO is out of date — regenerate it with: makepkg --printsrcinfo > .SRCINFO"
