@@ -2,7 +2,7 @@
 
 pkgname=appflowy
 pkgver=0.12.2
-pkgrel=3
+pkgrel=4
 pkgdesc="Open-source alternative to Notion – you own your data and customizations"
 arch=('x86_64')
 url="https://appflowy.com"
@@ -22,6 +22,7 @@ makedepends=(
     'clang'
     'cmake'
     'git'
+    'openssh'
     'ninja'
     'pkg-config'
     'sqlite'
