@@ -28,6 +28,7 @@ makedepends=(
     'openssl'
     'unzip'
     'protobuf'
+    'rsync'
     'rustup'
     'cargo-make'
 )
