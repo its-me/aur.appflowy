@@ -30,4 +30,6 @@ jobs:
           fi
 
       - name: Build package
-        run: paru -B --noconfirm --skipreview --noprogressbar --removemake --mflags "--nocheck"
+        run: |
+          chown -R builder .
+          su builder -c "paru -B . --noconfirm --skipreview --noprogressbar --removemake --mflags '--nocheck'"
