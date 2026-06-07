@@ -17,9 +17,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Install openssh
-        run: paru -S --noconfirm openssh rsync
-
       - name: Set up SSH
         run: |
           mkdir -p /root/.ssh
