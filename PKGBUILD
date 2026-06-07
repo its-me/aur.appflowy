@@ -22,7 +22,6 @@ makedepends=(
     'clang'
     'cmake'
     'git'
-    'openssh'
     'ninja'
     'pkg-config'
     'sqlite'
@@ -39,7 +38,7 @@ optdepends=(
 options=('!lto' '!debug' '!buildflags')
 source=(
     "${pkgname}-${pkgver}.tar.gz::https://github.com/AppFlowy-IO/AppFlowy/archive/refs/tags/${pkgver}.tar.gz"
-    "flutter::git+ssh://git@github.com/flutter/flutter.git#tag=${_flutter_ver}"
+    "flutter::git+https://github.com/flutter/flutter.git#tag=${_flutter_ver}"
     "appflowy.desktop"
 )
 sha256sums=(
