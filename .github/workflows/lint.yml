@@ -8,14 +8,11 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/its-me/arch-linux-repository:latest
+      image: ghcr.io/its-me/arch-linux-repository:builder
 
     steps:
       - name: Checkout
         uses: actions/checkout@v6
-
-      - name: Install namcap
-        run: paru -S --noconfirm namcap
 
       - name: Lint PKGBUILD
         run: namcap PKGBUILD
