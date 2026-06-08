@@ -8,7 +8,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/its-me/arch-linux-repository:builder
+      image: ghcr.io/its-me/arch-linux:builder
 
     steps:
       - name: Checkout
