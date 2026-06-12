@@ -28,5 +28,6 @@ jobs:
 
       - name: Build package
         run: |
+          paru -Syu --noconfirm
           chown -R builder .
           su builder -c "paru -B . --noconfirm --skipreview --noprogressbar --removemake --mflags '--nocheck'"
