@@ -1,11 +1,11 @@
-name: Lint
+name: CI
 
 on:
   push:
   pull_request:
 
 jobs:
-  lint:
+  ci:
     runs-on: ubuntu-latest
     container:
       image: ghcr.io/its-me/arch-linux:builder
