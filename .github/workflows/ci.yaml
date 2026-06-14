@@ -42,4 +42,6 @@ jobs:
           git config --global --add safe.directory "${GITHUB_WORKSPACE}"
           _ver=$(grep '^pkgver=' PKGBUILD | cut -d= -f2)
           _rel=$(grep '^pkgrel=' PKGBUILD | cut -d= -f2)
+          gh release view "${_ver}-${_rel}" 2>/dev/null && echo "Release ${_ver}-${_rel} already exists, skipping" || \
+          gh release delete "${_ver}-${_rel}" --yes --cleanup-tag 2>/dev/null || true
           gh release create "${_ver}-${_rel}" --title "${_ver}-${_rel}" *.pkg.tar.zst
