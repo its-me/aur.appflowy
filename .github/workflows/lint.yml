@@ -31,3 +31,12 @@ jobs:
           paru -Syu --noconfirm
           chown -R builder .
           su builder -c "paru -B . --noconfirm --skipreview --noprogressbar --removemake --mflags '--nocheck'"
+
+      - name: Create release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          _ver=$(grep '^pkgver=' PKGBUILD | cut -d= -f2)
+          _rel=$(grep '^pkgrel=' PKGBUILD | cut -d= -f2)
+          gh release create "${_ver}-${_rel}" --title "AppFlowy ${_ver}-${_rel}"
