@@ -17,6 +17,6 @@ jobs:
         uses: actions/checkout@v7
 
       - name: CI
-        uses: its-me/actions.aur.ci@main
+        uses: its-me/actions.aur.ci@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
