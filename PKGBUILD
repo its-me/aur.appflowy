@@ -1,4 +1,5 @@
 # Maintainer: Sergey Kanafyev <sergeykanafyev@gmail.com>
+# Automation: https://github.com/its-me/aur.appflowy
 
 pkgname=appflowy
 pkgver=0.12.5
