@@ -11,7 +11,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/its-me/arch-linux:builder
+      image: ghcr.io/its-me/archlinux:builder
 
     steps:
       - name: Checkout
