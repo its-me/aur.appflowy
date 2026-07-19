@@ -9,36 +9,19 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/its-me/archlinux:builder
+    runs-on: ubuntu-slim
+    environment:
+      name: AUR
+      url: https://aur.archlinux.org/packages/appflowy
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
-      - name: Set up SSH
-        run: |
-          mkdir -p /root/.ssh
-          echo "${{ secrets.AUR_SSH_KEY }}" > /root/.ssh/aur
-          chmod 600 /root/.ssh/aur
-
-      - name: Push to AUR
-        env:
-          COMMIT_MSG: ${{ github.event.inputs.commit_message }}
-          GIT_SSH_COMMAND: ssh -i /root/.ssh/aur -o StrictHostKeyChecking=no
-        run: |
-          git config --global user.name "Sergey Kanafyev"
-          git config --global user.email "sergeykanafyev@gmail.com"
-          git clone ssh://aur@aur.archlinux.org/appflowy.git ~/aur
-          rsync -rv --exclude='.github' --exclude='.git' . ~/aur/
-          cd ~/aur
-          git add .
-          if git diff --staged --quiet; then
-            echo "AUR is already up to date"
-            exit 0
-          fi
-          _ver=$(grep '^pkgver=' PKGBUILD | cut -d= -f2)
-          _rel=$(grep '^pkgrel=' PKGBUILD | cut -d= -f2)
-          git commit -m "${COMMIT_MSG:-"update to ${_ver}-${_rel}"}"
-          git push
+      - name: Publish
+        uses: its-me/action.aur.publish@v0
+        with:
+          ssh-key: ${{ secrets.AUR_SSH_KEY }}
+          commit-message: ${{ github.event.inputs.commit_message }}
