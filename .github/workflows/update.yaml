@@ -1,0 +1,63 @@
+name: Update
+
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      updated: ${{ steps.update.outputs.updated }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Update
+        id: update
+        uses: its-me/action.aur.update@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          git-user-name: Sergey Kanafyev
+          git-user-email: sergeykanafyev@gmail.com
+
+  ci:
+    needs: update
+    if: needs.update.outputs.updated == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: CI
+        uses: its-me/action.aur.ci@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: [update, ci]
+    if: needs.update.outputs.updated == 'true'
+    runs-on: ubuntu-latest
+    environment:
+      name: AUR
+      url: https://aur.archlinux.org/packages/appflowy
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Publish
+        uses: its-me/action.aur.publish@v0
+        with:
+          ssh-key: ${{ secrets.AUR_SSH_KEY }}
+          git-user-name: Sergey Kanafyev
+          git-user-email: sergeykanafyev@gmail.com
