@@ -24,4 +24,6 @@ jobs:
         uses: its-me/action.aur.publish@v0
         with:
           ssh-key: ${{ secrets.AUR_SSH_KEY }}
+          git-user-name: Sergey Kanafyev
+          git-user-email: sergeykanafyev@gmail.com
           commit-message: ${{ github.event.inputs.commit_message }}
