@@ -21,8 +21,6 @@ jobs:
         uses: its-me/action.aur.update@v0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          git-user-name: Sergey Kanafyev
-          git-user-email: sergeykanafyev@gmail.com
 
   ci:
     needs: update
